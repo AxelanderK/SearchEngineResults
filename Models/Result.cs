@@ -5,9 +5,9 @@ namespace SearchengineResult.Models
 {
     public class Result
     {
-        public String Name { get; set; }
+        public string? Name { get; set; }
         public long ResultCount { get; set; }
-        public String ResultCountConverted
+        public string ResultCountConverted
         {
             get
             {
