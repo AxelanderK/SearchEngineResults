@@ -5,17 +5,18 @@
 }
 
 <form method="post">
-    <input id="search" name="search" type="text" class="px-4 py-2 border-0 rounded-lg w-96 shadow-lg" placeholder="Make your search..." />
+    @Html.TextBoxFor(m => m.Search, new { @class = "px-4 py-2 border-0 rounded-lg w-96 shadow-lg", @placeholder = "Make your search..."})
     <button type="submit" class="bg-purple-400 shadow-lg px-4 py-2 rounded-lg text-white font-medium">Search</button>
 </form>
 
-<div class="bg-white p-5 mt-4 rounded-lg">
-    <h2 class="text-xl">Search results</h2>
-    <hr class="my-2" />
-    <ul class="space-y-2">
-        @foreach(var Result in Model.Results)
-        {
-            <li><strong>@Result.Name:</strong> @Result.ResultCountConverted</li>
-        }
-    </ul>
-</div>
+@if(Model.Results.Count > 0) {
+    <div class="bg-white p-5 mt-4 rounded-lg">
+        <h2 class="text-xl">Search results</h2>
+        <hr class="my-2" />
+        <ul class="space-y-2">
+            @foreach(var Result in Model.Results) {
+                <li><strong>@Result.Name:</strong> @Result.ResultCountConverted</li>
+            }
+        </ul>
+    </div>
+}
