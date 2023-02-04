@@ -1,24 +1,20 @@
-﻿using HtmlAgilityPack;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.RazorPages;
-using Newtonsoft.Json.Linq;
+﻿using Microsoft.AspNetCore.Mvc.RazorPages;
 using SearchengineResult.Models;
-using SerpApi;
-using System.Collections;
-using System.Web;
-using static System.Net.WebRequestMethods;
+using SearchEngineResult.Services;
 
 namespace SearchengineResult.Pages
 {
     public class IndexModel : PageModel
     {
         private readonly ILogger<IndexModel> _logger;
+        public readonly SearchEngineService SearchEngineService;
+        public List<Result> Results { get; private set; } = new List<Result>();
+        public string? Search { get; private set; }
 
-        public List<Result> Results { get; set; } = new List<Result>();
-
-        public IndexModel(ILogger<IndexModel> logger)
+        public IndexModel(ILogger<IndexModel> logger, SearchEngineService searchEngineService)
         {
             _logger = logger;
+            SearchEngineService = searchEngineService;
         }
 
         public void OnGet()
@@ -26,11 +22,9 @@ namespace SearchengineResult.Pages
             
         }
 
-        public async void OnPost(string search)
+        public void OnPost(string Search)
         {
-            String[] searchWords = search.Split(' ');
-
-            
+            Results = (List<Result>)SearchEngineService.Search(Search);
         }
     }
 }
