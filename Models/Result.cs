@@ -13,15 +13,15 @@ namespace SearchengineResult.Models
             {
                 if (ResultCount > 999999999 || ResultCount < -999999999)
                 {
-                    return ResultCount.ToString("#,##0,,,B", CultureInfo.InvariantCulture);
+                    return ResultCount.ToString("#,##0,,,.##B", CultureInfo.InvariantCulture);
                 }
                 else if (ResultCount > 999999 || ResultCount < -999999)
                 {
-                    return ResultCount.ToString("#,##0,,M", CultureInfo.InvariantCulture);
+                    return ResultCount.ToString("#,##0,,.##M", CultureInfo.InvariantCulture);
                 }
                 else if (ResultCount > 999 || ResultCount < -999)
                 {
-                    return ResultCount.ToString("#,##0,K", CultureInfo.InvariantCulture);
+                    return ResultCount.ToString("#,##0,.##K", CultureInfo.InvariantCulture);
                 }
                 else
                 {
