@@ -4,7 +4,8 @@
 		<TargetFramework>net6.0</TargetFramework>
 		<Nullable>enable</Nullable>
 		<ImplicitUsings>enable</ImplicitUsings>
-	</PropertyGroup>
+	  <UserSecretsId>d4bab275-31f9-4ad6-8728-2060ea7507b3</UserSecretsId>
+  </PropertyGroup>
 
 	<ItemGroup>
 	  <PackageReference Include="google-search-results-dotnet" Version="2.0.1" />
