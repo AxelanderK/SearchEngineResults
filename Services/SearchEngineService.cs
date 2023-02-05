@@ -54,7 +54,7 @@ namespace SearchEngineResult.Services
                         sum += (long)data.SelectToken("search_information.total_results");
                     }
                 }
-                catch (SerpApiSearchException) { }
+                catch (Exception) { }
             }
 
             return new Result
