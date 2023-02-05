@@ -22,9 +22,9 @@ namespace SearchEngineResult.Services
 
         public IEnumerable<Result?> Search(string search)
         {
-            Results.AddIfNotNull(MakeSearchFromEngine("Google", search));
-            Results.AddIfNotNull(MakeSearchFromEngine("Bing", search));
-            Results.AddIfNotNull(MakeSearchFromEngine("Yahoo", search));
+            Results.AddIfNotNull(MakeSearchFromEngine("google", search));
+            Results.AddIfNotNull(MakeSearchFromEngine("bing", search));
+            Results.AddIfNotNull(MakeSearchFromEngine("yahoo", search));
 
             return Results;
         }
@@ -37,12 +37,12 @@ namespace SearchEngineResult.Services
             long sum = 0;
             foreach (var searchWord in searchWords)
             {
-                var queryString = SearchQueryStrings[searchEngine.ToLower()];
+                var queryString = SearchQueryStrings[searchEngine];
 
                 Hashtable hs = new Hashtable
                 {
                     { queryString, searchWord },
-                    { "engine", searchEngine.ToLower() }
+                    { "engine", searchEngine }
                 };
 
                 try

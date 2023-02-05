@@ -15,7 +15,7 @@
         <hr class="my-2" />
         <ul class="space-y-2">
             @foreach(var Result in Model.Results) {
-                <li><strong>@Result.Name:</strong> @Result.ResultCountConverted</li>
+                <li><strong class="capitalize">@Result.Name:</strong> @Result.ResultCountConverted</li>
             }
         </ul>
     </div>
