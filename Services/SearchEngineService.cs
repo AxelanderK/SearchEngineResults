@@ -15,9 +15,11 @@ namespace SearchEngineResult.Services
             { "bing", "q" },
             { "yahoo", "p" },
         };
+        private string SerpApiKey { get; set; }
 
         public SearchEngineService(IConfiguration config) {
             _config= config;
+            SerpApiKey = _config["SerpApiKey"];
         }
 
         public IEnumerable<Result?> Search(string search)
@@ -32,7 +34,6 @@ namespace SearchEngineResult.Services
         private Result? MakeSearchFromEngine(string searchEngine, string search)
         {
             string[] searchWords = search.Split(' ');
-            string SerpApiKey = _config["SerpApiKey"];
 
             long sum = 0;
             foreach (var searchWord in searchWords)
