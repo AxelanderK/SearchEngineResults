@@ -5,7 +5,7 @@
 }
 
 <form method="post">
-    @Html.TextBoxFor(m => m.Search, new { @class = "px-4 py-2 border-0 rounded-lg w-96 shadow-lg", @placeholder = "Make your search..."})
+    <input type="text" class="px-4 py-2 border-0 rounded-lg w-96 shadow-lg" placeholder="Make your search..." required asp-for="Search" />
     <button type="submit" class="bg-purple-400 shadow-lg px-4 py-2 rounded-lg text-white font-medium">Search</button>
 </form>
 
