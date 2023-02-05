@@ -1,3 +1,8 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+/* Flex fix for dev environment */
+live-preview-root {
+    display: none;
+}
