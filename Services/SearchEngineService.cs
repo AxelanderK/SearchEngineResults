@@ -37,11 +37,11 @@ namespace SearchEngineResult.Services
             long sum = 0;
             foreach (var searchWord in searchWords)
             {
-                var queryString = SearchQueryStrings[searchEngine];
+                var queryParam = SearchQueryStrings[searchEngine];
 
                 Hashtable hs = new Hashtable
                 {
-                    { queryString, searchWord },
+                    { queryParam, searchWord },
                     { "engine", searchEngine }
                 };
 
