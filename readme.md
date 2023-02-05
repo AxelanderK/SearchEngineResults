@@ -19,19 +19,19 @@ Makes searches on several search engines using SerpApi and presents the total co
 Clone the project
 
 ```bash
-  git clone https://github.com/AxelanderK/SearchEngineResults.git
+git clone https://github.com/AxelanderK/SearchEngineResults.git
 ```
 
 Go to the project directory
 
 ```bash
-  cd SearchEngineResults
+cd SearchEngineResults
 ```
 
 Install dependencies
 
 ```bash
-  npm install
+npm install
 ```
 
 Add SerpAPIKey to dotnet user secrets. Change [APIKEY] to your accual API key. Your can find your API key on [SerpApi.com](https://SerpApi.com).
@@ -48,7 +48,7 @@ dotnet dev-certs https --trust
 Start the application
 
 ```bash
-  dotnet run
+dotnet run
 ```
 
 Open web browser and access application with URL
