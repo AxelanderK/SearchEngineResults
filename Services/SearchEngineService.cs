@@ -4,7 +4,7 @@ using SearchengineResult.Models;
 using SerpApi;
 using System.Collections;
 
-namespace SearchEngineResult.Services
+namespace SearchengineResult.Services
 {
     public class SearchEngineService
     {
