@@ -1,8 +1,11 @@
-﻿using Newtonsoft.Json.Linq;
+﻿using HtmlAgilityPack;
+using Newtonsoft.Json.Linq;
 using SearchengineResult.Extensions;
 using SearchengineResult.Models;
+using SearchengineResult.Services;
 using SerpApi;
 using System.Collections;
+using System.Web;
 
 namespace SearchengineResult.Services
 {
@@ -16,46 +19,55 @@ namespace SearchengineResult.Services
             { "bing", "https://www.bing.com/search?q=hello&search=" },
             { "yahoo", "https://se.search.yahoo.com/search?p=" },
         };
-        private string SerpApiKey { get; set; }
 
         public SearchEngineService(IConfiguration config) {
             _config= config;
-            SerpApiKey = _config["SerpApiKey"];
         }
 
         public async Task<List<Result>> Search(string search)
         {
-            Results.AddIfNotNull(MakeSearchFromEngine("google", search));
-            Results.AddIfNotNull(MakeSearchFromEngine("bing", search));
-            Results.AddIfNotNull(MakeSearchFromEngine("yahoo", search));
+            List<Task> tasks = new List<Task>();
+            tasks.Add(Task.Run(() => ScrapeResultCount("bing", search, "//*[@id=\"b_tween\"]/span[1]")).ContinueWith((f) =>
+            {
+                if (f.Result != null)
+                {
+                    Results.Add(f.Result);
+                }
+            }));
+            tasks.Add(Task.Run(() => ScrapeResultCount("yahoo", search, "//*[@id=\"cols\"]/ol/li/div/div/h2/span")).ContinueWith((f) =>
+            {
+                if (f.Result != null)
+                {
+                    Results.Add(f.Result);
+                }
+            }));
+
+            await Task.WhenAll(tasks);
 
             return Results;
         }
 
-        private Result? MakeSearchFromEngine(string searchEngine, string search)
+        private async Task<Result> ScrapeResultCount(string searchEngine, string search, string xPath)
         {
             string[] searchWords = search.Split(' ');
 
             long sum = 0;
             foreach (var searchWord in searchWords)
             {
-                var queryParam = SearchQueryStrings[searchEngine];
-
-                Hashtable hs = new Hashtable
+                using (HttpClient client = new HttpClient())
                 {
-                    { queryParam, searchWord },
-                    { "engine", searchEngine }
-                };
+                    var responseString = await client.GetStringAsync(SearchEngineUrls[searchEngine] + searchWord);
+                    HtmlDocument htmlDoc = new HtmlDocument();
+                    htmlDoc.LoadHtml(responseString);
 
-                try
-                {
-                    GoogleSearch serpApiSearch = new GoogleSearch(hs, SerpApiKey);
-                    JObject data = serpApiSearch.GetJson();
-                    if (data != null) {
-                        sum += (long)data.SelectToken("search_information.total_results");
+                    var resultNode = htmlDoc.DocumentNode.SelectSingleNode(xPath);
+
+                    if (resultNode != null)
+                    {
+                        string resultText = HttpUtility.HtmlDecode(resultNode.InnerText);
+                        sum += Int64.Parse(string.Concat(resultText.Where(Char.IsDigit)));
                     }
                 }
-                catch (Exception) { }
             }
 
             return new Result
