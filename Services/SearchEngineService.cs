@@ -6,14 +6,15 @@ using System.Collections;
 
 namespace SearchengineResult.Services
 {
-    public class SearchEngineService
+    public class SearchEngineService : ISearchEngineService
     {
         private readonly IConfiguration _config;
-        private List<Result?> Results { get; set; } = new List<Result?>();
-        private static readonly Dictionary<string, string> SearchQueryStrings = new Dictionary<string, string>() {
-            { "google", "q" },
-            { "bing", "q" },
-            { "yahoo", "p" },
+        public List<Result> Results { get; set; } = new List<Result>();
+        
+        private static readonly Dictionary<string, string> SearchEngineUrls = new Dictionary<string, string>() {
+            { "google", "" },
+            { "bing", "https://www.bing.com/search?q=hello&search=" },
+            { "yahoo", "https://se.search.yahoo.com/search?p=" },
         };
         private string SerpApiKey { get; set; }
 
@@ -22,7 +23,7 @@ namespace SearchengineResult.Services
             SerpApiKey = _config["SerpApiKey"];
         }
 
-        public IEnumerable<Result?> Search(string search)
+        public async Task<List<Result>> Search(string search)
         {
             Results.AddIfNotNull(MakeSearchFromEngine("google", search));
             Results.AddIfNotNull(MakeSearchFromEngine("bing", search));

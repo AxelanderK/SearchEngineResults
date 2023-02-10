@@ -1,10 +1,10 @@
-using SearchEngineResult.Services;
+using SearchengineResult.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddRazorPages();
-builder.Services.AddTransient<SearchEngineService>();
+builder.Services.AddScoped<ISearchEngineService, SearchEngineService>();
 
 var app = builder.Build();
 
